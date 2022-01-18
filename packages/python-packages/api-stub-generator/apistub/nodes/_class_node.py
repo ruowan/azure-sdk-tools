@@ -121,9 +121,13 @@ class ClassNode(NodeEntityBase):
             elif self._should_include_function(child_obj):
                 # Include dunder and public methods
                 if not name.startswith("_") or name.startswith("__"):
-                    self.child_nodes.append(
-                        FunctionNode(self.namespace, self, child_obj)
-                    )
+                    try:
+                        self.child_nodes.append(
+                            FunctionNode(self.namespace, self, child_obj)
+                        )
+                    except OSError:
+                        # Don't create entries for things that don't have source
+                        pass
             elif self.is_enum and isinstance(child_obj, self.obj):
                 # Enum values will be of parent instance type
                 child_obj.__name__ = name
