@@ -134,6 +134,11 @@ class ClassNode(NodeEntityBase):
                     self.child_nodes.append(
                         PropertyNode(self.namespace, self, name, child_obj)
                     )
+            elif isinstance(child_obj, dict):
+                for (itemname, itemtype) in child_obj.items():
+                    self.child_nodes.append(
+                        PropertyNode(self.namespace, self, itemname, itemtype)
+                    )
             elif not name.startswith("_") and (
                 isinstance(child_obj, str) or isinstance(child_obj, int)
             ):
